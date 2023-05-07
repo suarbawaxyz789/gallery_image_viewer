@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../gallery_image_viewer.dart';
 
+class GalleryImageController {
+  final Function(ImageProvider imageProvider) onImageDeleted;
+
+  GalleryImageController({required this.onImageDeleted});
+}
+
 class GalleryImageView extends StatelessWidget {
   /// The image to display
   final List<ImageProvider> listImage;
+
+  final GalleryImageController? controller;
 
   /// The gallery width
   final double width;
@@ -40,6 +48,7 @@ class GalleryImageView extends StatelessWidget {
       this.galleryType = 0,
       this.shortImage = true,
       this.fontSize = 32,
+      required this.controller,
       this.textColor = Colors.white})
       : super(key: key);
 
@@ -94,8 +103,12 @@ class GalleryImageView extends StatelessWidget {
                       onTap: () {
                         MultiImageProvider multiImageProvider =
                             MultiImageProvider(listImage, initialIndex: i);
-                        showImageViewerPager(context, multiImageProvider,
-                            backgroundColor: Colors.black.withOpacity(0.3));
+                        showImageViewerPager(
+                          context,
+                          multiImageProvider,
+                          backgroundColor: Colors.black.withOpacity(0.3),
+                          controller: controller,
+                        );
                       },
                       child: Align(
                         alignment: Alignment.center,
@@ -137,8 +150,12 @@ class GalleryImageView extends StatelessWidget {
                     onTap: () {
                       MultiImageProvider multiImageProvider =
                           MultiImageProvider(listImage, initialIndex: i);
-                      showImageViewerPager(context, multiImageProvider,
-                          backgroundColor: Colors.black.withOpacity(0.3));
+                      showImageViewerPager(
+                        context,
+                        multiImageProvider,
+                        backgroundColor: Colors.black.withOpacity(0.3),
+                        controller: controller,
+                      );
                     },
                   ),
                 ),
@@ -173,8 +190,12 @@ class GalleryImageView extends StatelessWidget {
                     onTap: () {
                       MultiImageProvider multiImageProvider =
                           MultiImageProvider(listImage, initialIndex: 0);
-                      showImageViewerPager(context, multiImageProvider,
-                          backgroundColor: Colors.black.withOpacity(0.3));
+                      showImageViewerPager(
+                        context,
+                        multiImageProvider,
+                        backgroundColor: Colors.black.withOpacity(0.3),
+                        controller: controller,
+                      );
                     },
                   ),
                 ),
@@ -204,9 +225,12 @@ class GalleryImageView extends StatelessWidget {
                               MultiImageProvider multiImageProvider =
                                   MultiImageProvider(listImage,
                                       initialIndex: i);
-                              showImageViewerPager(context, multiImageProvider,
-                                  backgroundColor:
-                                      Colors.black.withOpacity(0.3));
+                              showImageViewerPager(
+                                context,
+                                multiImageProvider,
+                                backgroundColor: Colors.black.withOpacity(0.3),
+                                controller: controller,
+                              );
                             },
                             child: Align(
                               alignment: Alignment.center,
@@ -250,8 +274,12 @@ class GalleryImageView extends StatelessWidget {
                     onTap: () {
                       MultiImageProvider multiImageProvider =
                           MultiImageProvider(listImage, initialIndex: 0);
-                      showImageViewerPager(context, multiImageProvider,
-                          backgroundColor: Colors.black.withOpacity(0.3));
+                      showImageViewerPager(
+                        context,
+                        multiImageProvider,
+                        backgroundColor: Colors.black.withOpacity(0.3),
+                        controller: controller,
+                      );
                     },
                   )),
             ),
@@ -279,8 +307,12 @@ class GalleryImageView extends StatelessWidget {
                           onTap: () {
                             MultiImageProvider multiImageProvider =
                                 MultiImageProvider(listImage, initialIndex: i);
-                            showImageViewerPager(context, multiImageProvider,
-                                backgroundColor: Colors.black.withOpacity(0.3));
+                            showImageViewerPager(
+                              context,
+                              multiImageProvider,
+                              backgroundColor: Colors.black.withOpacity(0.3),
+                              controller: controller,
+                            );
                           },
                         ),
                       ),
@@ -318,8 +350,12 @@ class GalleryImageView extends StatelessWidget {
                     onTap: () {
                       MultiImageProvider multiImageProvider =
                           MultiImageProvider(listImage, initialIndex: 0);
-                      showImageViewerPager(context, multiImageProvider,
-                          backgroundColor: Colors.black.withOpacity(0.3));
+                      showImageViewerPager(
+                        context,
+                        multiImageProvider,
+                        backgroundColor: Colors.black.withOpacity(0.3),
+                        controller: controller,
+                      );
                     },
                   ),
                 ),
@@ -347,9 +383,12 @@ class GalleryImageView extends StatelessWidget {
                               MultiImageProvider multiImageProvider =
                                   MultiImageProvider(listImage,
                                       initialIndex: i);
-                              showImageViewerPager(context, multiImageProvider,
-                                  backgroundColor:
-                                      Colors.black.withOpacity(0.3));
+                              showImageViewerPager(
+                                context,
+                                multiImageProvider,
+                                backgroundColor: Colors.black.withOpacity(0.3),
+                                controller: controller,
+                              );
                             },
                             child: Align(
                               alignment: Alignment.center,
@@ -393,8 +432,12 @@ class GalleryImageView extends StatelessWidget {
                   onTap: () {
                     MultiImageProvider multiImageProvider =
                         MultiImageProvider(listImage, initialIndex: 0);
-                    showImageViewerPager(context, multiImageProvider,
-                        backgroundColor: Colors.black.withOpacity(0.3));
+                    showImageViewerPager(
+                      context,
+                      multiImageProvider,
+                      backgroundColor: Colors.black.withOpacity(0.3),
+                      controller: controller,
+                    );
                   },
                 ),
               ),
@@ -423,8 +466,12 @@ class GalleryImageView extends StatelessWidget {
                           onTap: () {
                             MultiImageProvider multiImageProvider =
                                 MultiImageProvider(listImage, initialIndex: i);
-                            showImageViewerPager(context, multiImageProvider,
-                                backgroundColor: Colors.black.withOpacity(0.3));
+                            showImageViewerPager(
+                              context,
+                              multiImageProvider,
+                              backgroundColor: Colors.black.withOpacity(0.3),
+                              controller: controller,
+                            );
                           },
                         ),
                       ),

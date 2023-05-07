@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../gallery_image_viewer.dart';
+
 /// A full-sized view that displays the given image, supporting pinch & zoom
 class EasyImageView extends StatefulWidget {
   /// The image to display
@@ -15,6 +17,8 @@ class EasyImageView extends StatefulWidget {
   /// an interaction.
   final void Function(double)? onScaleChanged;
 
+  final GalleryImageController? controller;
+
   /// Create a new instance
   const EasyImageView({
     Key? key,
@@ -22,6 +26,7 @@ class EasyImageView extends StatefulWidget {
     this.minScale = 1.0,
     this.maxScale = 5.0,
     this.onScaleChanged,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -34,21 +39,46 @@ class _EasyImageViewState extends State<EasyImageView> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-        key: const Key('easy_image_sized_box'),
-        child: InteractiveViewer(
-          key: const Key('easy_image_interactive_viewer'),
-          transformationController: _transformationController,
-          minScale: widget.minScale,
-          maxScale: widget.maxScale,
-          child: Image(image: widget.imageProvider),
-          onInteractionEnd: (scaleEndDetails) {
-            double scale = _transformationController.value.getMaxScaleOnAxis();
-
-            if (widget.onScaleChanged != null) {
-              widget.onScaleChanged!(scale);
-            }
-          },
+    Widget deleteImageButton = Align(
+        alignment: AlignmentDirectional.bottomCenter,
+        child: SafeArea(
+          child: Container(
+            margin: const EdgeInsets.only(
+              bottom: 20,
+            ),
+            child: IconButton(
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                widget.controller?.onImageDeleted?.call(widget.imageProvider);
+              },
+            ),
+          ),
         ));
+    return Stack(
+      children: [
+        SizedBox.expand(
+            key: const Key('easy_image_sized_box'),
+            child: InteractiveViewer(
+              key: const Key('easy_image_interactive_viewer'),
+              transformationController: _transformationController,
+              minScale: widget.minScale,
+              maxScale: widget.maxScale,
+              child: Image(image: widget.imageProvider),
+              onInteractionEnd: (scaleEndDetails) {
+                double scale =
+                    _transformationController.value.getMaxScaleOnAxis();
+
+                if (widget.onScaleChanged != null) {
+                  widget.onScaleChanged!(scale);
+                }
+              },
+            )),
+        deleteImageButton,
+      ],
+    );
   }
 }

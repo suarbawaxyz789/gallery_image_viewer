@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../gallery_image_viewer.dart';
 import 'easy_image_provider.dart';
 import 'easy_image_view.dart';
 
@@ -20,15 +21,17 @@ class EasyImageViewPager extends StatefulWidget {
   /// Callback for when the scale has changed, only invoked at the end of
   /// an interaction.
   final void Function(double)? onScaleChanged;
+  final GalleryImageController? controller;
 
   /// Create new instance, using the [easyImageProvider] to populate the [PageView],
   /// and the [pageController] to control the initial image index to display.
-  const EasyImageViewPager(
-      {Key? key,
-      required this.easyImageProvider,
-      required this.pageController,
-      this.onScaleChanged})
-      : super(key: key);
+  const EasyImageViewPager({
+    Key? key,
+    required this.easyImageProvider,
+    required this.pageController,
+    this.onScaleChanged,
+    this.controller,
+  }) : super(key: key);
 
   @override
   _EasyImageViewPagerState createState() => _EasyImageViewPagerState();
@@ -50,6 +53,7 @@ class _EasyImageViewPagerState extends State<EasyImageViewPager> {
       itemBuilder: (context, index) {
         final image = widget.easyImageProvider.imageBuilder(context, index);
         return EasyImageView(
+          controller: widget.controller,
           key: Key('easy_image_view_$index'),
           imageProvider: image,
           onScaleChanged: (scale) {

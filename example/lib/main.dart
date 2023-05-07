@@ -32,13 +32,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<ImageProvider> _imageProviders = [
+  List<ImageProvider> _imageProviders = [
     Image.network("https://picsum.photos/id/237/200/300").image,
     Image.network("https://picsum.photos/seed/picsum/200/300").image,
     Image.network("https://picsum.photos/200/300?grayscale").image,
     Image.network("https://picsum.photos/200/300").image,
     Image.network("https://picsum.photos/200/300?grayscale").image
   ];
+
+  GalleryImageController? controller;
+
+  @override
+  void initState() {
+    controller = GalleryImageController(
+        onImageDeleted: (ImageProvider<Object> imageProvider) {
+      setState(() {
+        _imageProviders..removeWhere((element) => element == imageProvider);
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,17 +82,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       swipeDismissible: true);
                 }),
             const Text("<<<< Gallery type 1 >>>>"),
-            GalleryImageView(
-              listImage: _imageProviders,
-              width: 200,
-              height: 200,
-              imageDecoration:
-                  BoxDecoration(border: Border.all(color: Colors.white)),
-              galleryType: 1,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+            // GalleryImageView(
+            //   listImage: _imageProviders,
+            //   width: 200,
+            //   height: 200,
+            //   imageDecoration:
+            //       BoxDecoration(border: Border.all(color: Colors.white)),
+            //   galleryType: 1,
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
             const Text("<<<< Gallery type 2 >>>>"),
             GalleryImageView(
               listImage: _imageProviders,
@@ -88,19 +101,20 @@ class _MyHomePageState extends State<MyHomePage> {
               imageDecoration:
                   BoxDecoration(border: Border.all(color: Colors.white)),
               galleryType: 2,
+              controller: controller,
             ),
             const SizedBox(
               height: 10,
             ),
             const Text("<<<< Gallery type 3 >>>>"),
-            GalleryImageView(
-              listImage: _imageProviders,
-              width: 200,
-              height: 200,
-              imageDecoration:
-                  BoxDecoration(border: Border.all(color: Colors.white)),
-              galleryType: 3,
-            )
+            // GalleryImageView(
+            //   listImage: _imageProviders,
+            //   width: 200,
+            //   height: 200,
+            //   imageDecoration:
+            //       BoxDecoration(border: Border.all(color: Colors.white)),
+            //   galleryType: 3,
+            // )
           ],
         )),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../gallery_image_viewer.dart';
 import 'easy_image_provider.dart';
 import 'easy_image_view_pager.dart';
 
@@ -18,19 +19,22 @@ class EasyImageViewerDismissibleDialog extends StatefulWidget {
   final Color backgroundColor;
   final String closeButtonTooltip;
   final Color closeButtonColor;
+  final GalleryImageController? controller;
 
   /// Refer to [showImageViewerPager] for the arguments
-  const EasyImageViewerDismissibleDialog(this.imageProvider,
-      {Key? key,
-      this.immersive = true,
-      this.onPageChanged,
-      this.onViewerDismissed,
-      this.useSafeArea = false,
-      this.swipeDismissible = false,
-      required this.backgroundColor,
-      required this.closeButtonTooltip,
-      required this.closeButtonColor})
-      : super(key: key);
+  const EasyImageViewerDismissibleDialog(
+    this.imageProvider, {
+    Key? key,
+    this.immersive = true,
+    this.onPageChanged,
+    this.onViewerDismissed,
+    this.useSafeArea = false,
+    this.swipeDismissible = false,
+    required this.backgroundColor,
+    required this.closeButtonTooltip,
+    required this.closeButtonColor,
+    this.controller,
+  }) : super(key: key);
 
   @override
   State<EasyImageViewerDismissibleDialog> createState() =>
@@ -93,6 +97,7 @@ class _EasyImageViewerDismissibleDialogState
                 alignment: Alignment.center,
                 children: <Widget>[
                   EasyImageViewPager(
+                      controller: widget.controller,
                       easyImageProvider: widget.imageProvider,
                       pageController: _pageController,
                       onScaleChanged: (scale) {
@@ -113,7 +118,7 @@ class _EasyImageViewerDismissibleDialogState
                           Navigator.of(context).pop();
                           _handleDismissal();
                         },
-                      ))
+                      )),
                 ])));
 
     if (widget.swipeDismissible) {
