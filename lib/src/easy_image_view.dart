@@ -42,20 +42,30 @@ class _EasyImageViewState extends State<EasyImageView> {
     Widget deleteImageButton = Align(
         alignment: AlignmentDirectional.bottomCenter,
         child: SafeArea(
-          child: Container(
-            margin: const EdgeInsets.only(
-              bottom: 20,
-            ),
-            child: IconButton(
-              icon: widget.controller?.deleteButtonIcon ??
-                  const Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-              onPressed: () {
-                Navigator.of(context).pop();
-                widget.controller?.onImageDeleted?.call(widget.imageProvider);
-              },
+          child: SizedBox(
+            height: 100,
+            child: Column(
+              children: [
+                IconButton(
+                  icon: widget.controller?.deleteButtonIcon ??
+                      const Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    widget.controller?.onImageDeleted
+                        ?.call(widget.imageProvider);
+                  },
+                ),
+                Text(
+                  "Delete",
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                )
+              ],
             ),
           ),
         ));
