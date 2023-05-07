@@ -53,7 +53,6 @@ class _EasyImageViewState extends State<EasyImageView> {
                         color: Colors.white,
                       ),
                   onPressed: () {
-                    Navigator.of(context).pop();
                     widget.controller?.onImageDeleted
                         ?.call(widget.imageProvider);
                   },
