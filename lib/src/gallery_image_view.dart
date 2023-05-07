@@ -4,8 +4,12 @@ import '../gallery_image_viewer.dart';
 
 class GalleryImageController {
   final Function(ImageProvider imageProvider) onImageDeleted;
+  final Widget? deleteButtonIcon;
 
-  GalleryImageController({required this.onImageDeleted});
+  GalleryImageController({
+    required this.onImageDeleted,
+    this.deleteButtonIcon,
+  });
 }
 
 class GalleryImageView extends StatelessWidget {

@@ -47,10 +47,11 @@ class _EasyImageViewState extends State<EasyImageView> {
               bottom: 20,
             ),
             child: IconButton(
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.white,
-              ),
+              icon: widget.controller?.deleteButtonIcon ??
+                  const Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
               onPressed: () {
                 Navigator.of(context).pop();
                 widget.controller?.onImageDeleted?.call(widget.imageProvider);
@@ -58,6 +59,7 @@ class _EasyImageViewState extends State<EasyImageView> {
             ),
           ),
         ));
+
     return Stack(
       children: [
         SizedBox.expand(
