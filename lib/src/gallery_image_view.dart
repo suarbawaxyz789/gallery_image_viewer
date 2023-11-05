@@ -5,10 +5,12 @@ import '../gallery_image_viewer.dart';
 class GalleryImageController {
   final Function(ImageProvider imageProvider) onImageDeleted;
   final Widget? deleteButtonIcon;
+  final bool showDeleteButton;
 
   GalleryImageController({
     required this.onImageDeleted,
     this.deleteButtonIcon,
+    this.showDeleteButton = false,
   });
 }
 

@@ -88,7 +88,7 @@ class _EasyImageViewState extends State<EasyImageView> {
                 }
               },
             )),
-        deleteImageButton,
+        widget.controller?.showDeleteButton == true ? deleteImageButton : Container(),
       ],
     );
   }
