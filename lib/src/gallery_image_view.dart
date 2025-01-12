@@ -4,13 +4,14 @@ import '../gallery_image_viewer.dart';
 
 class GalleryImageController {
   final Function(ImageProvider imageProvider) onImageDeleted;
-  final Function(BuildContext context, MultiImageProvider multiImageProvider, GalleryImageController? controller)? showImageViewerPager;
+  final Function(BuildContext context, MultiImageProvider multiImageProvider,
+      GalleryImageController? controller)? showImageViewerPager;
   final Widget? deleteButtonIcon;
   final bool showDeleteButton;
 
   GalleryImageController({
     required this.onImageDeleted,
-    required this.showImageViewerPager,
+    this.showImageViewerPager,
     this.deleteButtonIcon,
     this.showDeleteButton = false,
   });
@@ -46,17 +47,18 @@ class GalleryImageView extends StatelessWidget {
   /// Text color
   final Color textColor;
 
-  const GalleryImageView({Key? key,
-    required this.listImage,
-    this.boxFit = BoxFit.cover,
-    this.imageDecoration,
-    this.width = 100,
-    this.height = 100,
-    this.galleryType = 0,
-    this.shortImage = true,
-    this.fontSize = 32,
-    required this.controller,
-    this.textColor = Colors.white})
+  const GalleryImageView(
+      {Key? key,
+      required this.listImage,
+      this.boxFit = BoxFit.cover,
+      this.imageDecoration,
+      this.width = 100,
+      this.height = 100,
+      this.galleryType = 0,
+      this.shortImage = true,
+      this.fontSize = 32,
+      required this.controller,
+      this.textColor = Colors.white})
       : super(key: key);
 
   @override
@@ -85,6 +87,25 @@ class GalleryImageView extends StatelessWidget {
     }
   }
 
+  showImageViewer(
+    BuildContext context,
+    MultiImageProvider multiImageProvider, {
+    required Color backgroundColor,
+    GalleryImageController? controller,
+  }) {
+    if (controller?.showImageViewerPager == null) {
+      showImageViewerPager(
+        context,
+        multiImageProvider,
+        backgroundColor: Colors.black.withOpacity(0.3),
+        controller: controller,
+      );
+    } else {
+      controller?.showImageViewerPager
+          ?.call(context, multiImageProvider, controller);
+    }
+  }
+
   /// Left - Right
   Widget _uiImage1(BuildContext context) {
     if (shortImage && listImage.length >= 5) {
@@ -109,18 +130,13 @@ class GalleryImageView extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         MultiImageProvider multiImageProvider =
-                        MultiImageProvider(listImage, initialIndex: i);
-                        if (controller?.showImageViewerPager == null) {
-                          showImageViewerPager(
-                            context,
-                            multiImageProvider,
-                            backgroundColor: Colors.black.withOpacity(0.3),
-                            controller: controller,
-                          );
-                        } else {
-                          controller?.showImageViewerPager?.call(
-                              context, multiImageProvider, controller);
-                        }
+                            MultiImageProvider(listImage, initialIndex: i);
+                        showImageViewer(
+                          context,
+                          multiImageProvider,
+                          backgroundColor: Colors.black.withOpacity(0.3),
+                          controller: controller,
+                        );
                       },
                       child: Align(
                         alignment: Alignment.center,
@@ -161,18 +177,13 @@ class GalleryImageView extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       MultiImageProvider multiImageProvider =
-                      MultiImageProvider(listImage, initialIndex: i);
-                      if (controller?.showImageViewerPager == null) {
-                        showImageViewerPager(
-                          context,
-                          multiImageProvider,
-                          backgroundColor: Colors.black.withOpacity(0.3),
-                          controller: controller,
-                        );
-                      } else {
-                        controller?.showImageViewerPager?.call(
-                            context, multiImageProvider, controller);
-                      }
+                          MultiImageProvider(listImage, initialIndex: i);
+                      showImageViewer(
+                        context,
+                        multiImageProvider,
+                        backgroundColor: Colors.black.withOpacity(0.3),
+                        controller: controller,
+                      );
                     },
                   ),
                 ),
@@ -206,18 +217,13 @@ class GalleryImageView extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       MultiImageProvider multiImageProvider =
-                      MultiImageProvider(listImage, initialIndex: 0);
-                      if (controller?.showImageViewerPager == null) {
-                        showImageViewerPager(
-                          context,
-                          multiImageProvider,
-                          backgroundColor: Colors.black.withOpacity(0.3),
-                          controller: controller,
-                        );
-                      } else {
-                        controller?.showImageViewerPager
-                            ?.call(context, multiImageProvider, controller);
-                      }
+                          MultiImageProvider(listImage, initialIndex: 0);
+                      showImageViewer(
+                        context,
+                        multiImageProvider,
+                        backgroundColor: Colors.black.withOpacity(0.3),
+                        controller: controller,
+                      );
                     },
                   ),
                 ),
@@ -245,12 +251,13 @@ class GalleryImageView extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               MultiImageProvider multiImageProvider =
-                              MultiImageProvider(listImage,
-                                  initialIndex: i);
-                              showImageViewerPager(
+                                  MultiImageProvider(listImage,
+                                      initialIndex: i);
+                              showImageViewer(
                                 context,
                                 multiImageProvider,
-                                backgroundColor: Colors.black.withOpacity(0.3),
+                                backgroundColor:
+                                Colors.black.withOpacity(0.3),
                                 controller: controller,
                               );
                             },
@@ -280,7 +287,8 @@ class GalleryImageView extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(child: Container(
+          Expanded(
+              child: Container(
             decoration: imageDecoration,
             child: Container(
               decoration: BoxDecoration(
@@ -296,8 +304,8 @@ class GalleryImageView extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     MultiImageProvider multiImageProvider =
-                    MultiImageProvider(listImage, initialIndex: 0);
-                    showImageViewerPager(
+                        MultiImageProvider(listImage, initialIndex: 0);
+                    showImageViewer(
                       context,
                       multiImageProvider,
                       backgroundColor: Colors.black.withOpacity(0.3),
@@ -311,7 +319,6 @@ class GalleryImageView extends StatelessWidget {
         ],
       );
     }
-
 
     return Row(
       children: [
@@ -332,8 +339,8 @@ class GalleryImageView extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       MultiImageProvider multiImageProvider =
-                      MultiImageProvider(listImage, initialIndex: 0);
-                      showImageViewerPager(
+                          MultiImageProvider(listImage, initialIndex: 0);
+                      showImageViewer(
                         context,
                         multiImageProvider,
                         backgroundColor: Colors.black.withOpacity(0.3),
@@ -365,8 +372,8 @@ class GalleryImageView extends StatelessWidget {
                         child: InkWell(
                           onTap: () {
                             MultiImageProvider multiImageProvider =
-                            MultiImageProvider(listImage, initialIndex: i);
-                            showImageViewerPager(
+                                MultiImageProvider(listImage, initialIndex: i);
+                            showImageViewer(
                               context,
                               multiImageProvider,
                               backgroundColor: Colors.black.withOpacity(0.3),
@@ -408,8 +415,8 @@ class GalleryImageView extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       MultiImageProvider multiImageProvider =
-                      MultiImageProvider(listImage, initialIndex: 0);
-                      showImageViewerPager(
+                          MultiImageProvider(listImage, initialIndex: 0);
+                      showImageViewer(
                         context,
                         multiImageProvider,
                         backgroundColor: Colors.black.withOpacity(0.3),
@@ -431,7 +438,7 @@ class GalleryImageView extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           image:
-                          DecorationImage(image: listImage[i], fit: boxFit),
+                              DecorationImage(image: listImage[i], fit: boxFit),
                         ),
                         width: double.infinity,
                         height: double.infinity,
@@ -440,12 +447,13 @@ class GalleryImageView extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               MultiImageProvider multiImageProvider =
-                              MultiImageProvider(listImage,
-                                  initialIndex: i);
-                              showImageViewerPager(
+                                  MultiImageProvider(listImage,
+                                      initialIndex: i);
+                              showImageViewer(
                                 context,
                                 multiImageProvider,
-                                backgroundColor: Colors.black.withOpacity(0.3),
+                                backgroundColor:
+                                Colors.black.withOpacity(0.3),
                                 controller: controller,
                               );
                             },
@@ -490,8 +498,8 @@ class GalleryImageView extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     MultiImageProvider multiImageProvider =
-                    MultiImageProvider(listImage, initialIndex: 0);
-                    showImageViewerPager(
+                        MultiImageProvider(listImage, initialIndex: 0);
+                    showImageViewer(
                       context,
                       multiImageProvider,
                       backgroundColor: Colors.black.withOpacity(0.3),
@@ -524,8 +532,8 @@ class GalleryImageView extends StatelessWidget {
                         child: InkWell(
                           onTap: () {
                             MultiImageProvider multiImageProvider =
-                            MultiImageProvider(listImage, initialIndex: i);
-                            showImageViewerPager(
+                                MultiImageProvider(listImage, initialIndex: i);
+                            showImageViewer(
                               context,
                               multiImageProvider,
                               backgroundColor: Colors.black.withOpacity(0.3),
