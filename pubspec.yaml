@@ -8,6 +8,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  flutter_expandable_fab: ^2.3.0
   flutter:
     sdk: flutter
 

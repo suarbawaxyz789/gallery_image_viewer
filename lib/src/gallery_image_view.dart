@@ -2,18 +2,26 @@ import 'package:flutter/material.dart';
 
 import '../gallery_image_viewer.dart';
 
+// Define the buildCustomButtons function type.
+typedef BuildCustomButtons = Widget Function(
+    {Function? callImageDelete, Function? callEditImage});
+
 class GalleryImageController {
-  final Function(ImageProvider imageProvider) onImageDeleted;
+  final Function(ImageProvider imageProvider)? onImageDeleted;
+  final Function(ImageProvider imageProvider)? onEditImage;
   final Function(BuildContext context, MultiImageProvider multiImageProvider,
       GalleryImageController? controller)? showImageViewerPager;
-  final Widget? deleteButtonIcon;
+  final BuildCustomButtons? buildCustomButtons;
   final bool showDeleteButton;
+  final bool showEditButton;
 
   GalleryImageController({
     required this.onImageDeleted,
+    this.onEditImage,
     this.showImageViewerPager,
-    this.deleteButtonIcon,
+    this.buildCustomButtons,
     this.showDeleteButton = false,
+    this.showEditButton = false,
   });
 }
 
@@ -256,8 +264,7 @@ class GalleryImageView extends StatelessWidget {
                               showImageViewer(
                                 context,
                                 multiImageProvider,
-                                backgroundColor:
-                                Colors.black.withOpacity(0.3),
+                                backgroundColor: Colors.black.withOpacity(0.3),
                                 controller: controller,
                               );
                             },
@@ -452,8 +459,7 @@ class GalleryImageView extends StatelessWidget {
                               showImageViewer(
                                 context,
                                 multiImageProvider,
-                                backgroundColor:
-                                Colors.black.withOpacity(0.3),
+                                backgroundColor: Colors.black.withOpacity(0.3),
                                 controller: controller,
                               );
                             },

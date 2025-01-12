@@ -39,19 +39,21 @@ class _EasyImageViewState extends State<EasyImageView> {
 
   @override
   Widget build(BuildContext context) {
-    Widget deleteImageButton = Align(
-        alignment: AlignmentDirectional.bottomCenter,
+    bool isHasButtons = widget.controller?.showEditButton == true ||
+        widget.controller?.showDeleteButton == true;
+
+    Widget buttons = Align(
+        alignment: AlignmentDirectional.bottomEnd,
         child: SafeArea(
           child: SizedBox(
             height: 100,
             child: Column(
               children: [
                 IconButton(
-                  icon: widget.controller?.deleteButtonIcon ??
-                      const Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                      ),
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
                   onPressed: () {
                     widget.controller?.onImageDeleted
                         ?.call(widget.imageProvider);
@@ -68,6 +70,14 @@ class _EasyImageViewState extends State<EasyImageView> {
             ),
           ),
         ));
+
+    Widget? customButtons() {
+      return widget.controller?.buildCustomButtons?.call(callImageDelete: () {
+        widget.controller?.onImageDeleted?.call(widget.imageProvider);
+      }, callEditImage: () {
+        widget.controller?.onEditImage?.call(widget.imageProvider);
+      });
+    }
 
     return Stack(
       children: [
@@ -88,7 +98,7 @@ class _EasyImageViewState extends State<EasyImageView> {
                 }
               },
             )),
-        widget.controller?.showDeleteButton == true ? deleteImageButton : Container(),
+        isHasButtons ? (customButtons() ?? buttons) : Container(),
       ],
     );
   }
